@@ -1,5 +1,10 @@
 function checkCopyAndPaste() {
-  window.addEventListener('paste', function (event) {
+  stopPropagationOfType('paste');
+  stopPropagationOfType('copy');
+}
+
+function stopPropagationOfType() {
+  window.addEventListener(type, function (event) {
     event.stopPropagation();
   }, true);
 }
