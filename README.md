@@ -1,6 +1,6 @@
 # Paste Enabler
 
-Deployed on the Chrome Web Store [here]().
+Deployed on the Chrome Web Store [here](https://chrome.google.com/webstore/detail/dhadehfniifbmemochpmbofcjckpdnnl/).
 
 Allows you to paste on all inputs on all sites.
 
