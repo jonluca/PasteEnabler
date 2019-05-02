@@ -3,7 +3,7 @@ function checkCopyAndPaste() {
   stopPropagationOfType('copy');
 }
 
-function stopPropagationOfType() {
+function stopPropagationOfType(type) {
   window.addEventListener(type, function (event) {
     event.stopPropagation();
   }, true);
