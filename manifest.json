@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "PasteEnabler",
   "description": "Paste when you're not allowed, copy when you're not allowed!",
-  "version": "0.1",
+  "version": "0.2g",
   "background": {
     "scripts": [
       "js/background.js"
