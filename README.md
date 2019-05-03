@@ -8,6 +8,7 @@ Reenables certain features on webpages when you click the icon. These include:
 * Ability to right click content
 * Ability to autocomplete certain inputs
 * Ability to select text
+* Ability to drag and drop text to/from inputs
 
 Deployed on the Chrome Web Store [here](https://chrome.google.com/webstore/detail/dhadehfniifbmemochpmbofcjckpdnnl/).
 
