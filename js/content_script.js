@@ -2,14 +2,41 @@
  * Function invoked on every load of the script
  */
 function checkCopyAndPaste() {
+  // enables paste on all items
   stopPropagationOfType('paste');
+  // enables copying any inputs or text
   stopPropagationOfType('copy');
-  stopPropagationOfType('contextmenu');
-  stopPropagationOfType('onselectstart');
-  const body = document.getElementsByTagName('body');
-  if (body.length) {
-    addStyle(body[0], 'user-select', 'text', true);
+  // enables cutting text from an input
+  stopPropagationOfType('cut');
+  // enables drag + drop of text into input
+  stopPropagationOfType('drop');
+  // Enables autocomplete on all elements that have it
+  const autocompleteDisabled = document.querySelectorAll('[autocomplete]');
+  for (const elem of autocompleteDisabled) {
+    elem.setAttribute('autocomplete', 'on');
   }
+
+  // enables right click context menu
+  stopPropagationOfType('contextmenu');
+
+  // Finds all elements and adds the user-select CSS property as text
+  // note - this is a *little* hacky, but it's the only way I've found to get it to work, since user-select is not
+  // inherited
+  const elements = document.body.getElementsByTagName("*");
+  if (elements.length) {
+    for (const elem of elements) {
+      addStyle(elem, 'user-select', 'text', true);
+    }
+  }
+
+  // enables text selection
+  stopPropagationOfType('selectstart');
+  // Enables dragging on all elements that have it
+  const draggableDisabled = document.querySelectorAll('[draggable]');
+  for (const elem of draggableDisabled) {
+    elem.setAttribute('draggable', 'auto');
+  }
+
 }
 
 /**

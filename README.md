@@ -1,14 +1,19 @@
 # Paste Enabler
 
+Reenables certain features on webpages when you click the icon. These include:
+
+* Ability to paste content
+* Ability to copy content
+* Ability to cut content
+* Ability to right click content
+* Ability to autocomplete certain inputs
+* Ability to select text
+
 Deployed on the Chrome Web Store [here](https://chrome.google.com/webstore/detail/dhadehfniifbmemochpmbofcjckpdnnl/).
-
-Allows you to paste on all inputs on all sites.
-
-Also allows you to copy on all sites.
 
 ## Usage
 
-If you are unable to paste on a site, click the icon and try again. You should be able to paste now. 
+If you are unable to do any of the above on a site, click the icon and try again. You should be able to perform that action now. 
 
 # Credits
 
