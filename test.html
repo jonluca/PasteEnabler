@@ -1,7 +1,7 @@
 <html>
 <head>
 </head>
-<body>
+<body asdf="return false;" oncontextmenu="return false;" style="-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;">
 <script
         src="https://code.jquery.com/jquery-3.4.1.min.js"
         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
@@ -12,6 +12,9 @@
 </body>
 <script>
   $("#test").on('paste', (ev) => {
+    ev.preventDefault();
+  });
+  $("body").on('contextmenu', (ev) => {
     ev.preventDefault();
   });
 </script>
