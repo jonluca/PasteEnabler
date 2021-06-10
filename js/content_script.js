@@ -10,14 +10,27 @@ function checkCopyAndPaste() {
   stopPropagationOfType('cut');
   // enables drag + drop of text into input
   stopPropagationOfType('drop');
+  // enables scrolling
+  stopPropagationOfType('scroll');
+  stopPropagationOfType('mousewheel');
+    // enables text selection
+  stopPropagationOfType('selectstart');
+  stopPropagationOfType('touchstart');
+  stopPropagationOfType('touchend');
+  stopPropagationOfType('dragstart');
+  stopPropagationOfType('dragend');
+  stopPropagationOfType('mousedown');
+
+    // enables right click context menu
+  stopPropagationOfType('contextmenu');
+
+
   // Enables autocomplete on all elements that have it
   const autocompleteDisabled = document.querySelectorAll('[autocomplete]');
   for (const elem of autocompleteDisabled) {
     elem.setAttribute('autocomplete', 'on');
   }
 
-  // enables right click context menu
-  stopPropagationOfType('contextmenu');
 
   // Finds all elements and adds the user-select CSS property as text
   // note - this is a *little* hacky, but it's the only way I've found to get it to work, since user-select is not
@@ -29,8 +42,7 @@ function checkCopyAndPaste() {
     }
   }
 
-  // enables text selection
-  stopPropagationOfType('selectstart');
+
   // Enables dragging on all elements that have it
   const draggableDisabled = document.querySelectorAll('[draggable]');
   for (const elem of draggableDisabled) {
