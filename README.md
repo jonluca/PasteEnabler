@@ -1,21 +1,33 @@
-# Paste Enabler
+This is a [Plasmo extension](https://docs.plasmo.com/) project bootstrapped with [`plasmo init`](https://www.npmjs.com/package/plasmo).
 
-Reenables certain features on webpages when you click the icon. These include:
+## Getting Started
 
-* Ability to paste content
-* Ability to copy content
-* Ability to cut content
-* Ability to right click content
-* Ability to autocomplete certain inputs
-* Ability to select text
-* Ability to drag and drop text to/from inputs
+First, run the development server:
 
-Deployed on the Chrome Web Store [here](https://chrome.google.com/webstore/detail/dhadehfniifbmemochpmbofcjckpdnnl/).
+```bash
+pnpm dev
+# or
+npm run dev
+```
 
-## Usage
+Open your browser and load the appropriate development build. For example, if you are developing for the chrome browser, using manifest v3, use: `build/chrome-mv3-dev`.
 
-If you are unable to do any of the above on a site, click the icon and try again. You should be able to perform that action now. 
+You can start editing the popup by modifying `popup.tsx`. It should auto-update as you make changes. To add an options page, simply add a `options.tsx` file to the root of the project, with a react component default exported. Likewise to add a content page, add a `content.ts` file to the root of the project, importing some module and do some logic, then reload the extension on your browser.
 
-# Credits
+For further guidance, [visit our Documentation](https://docs.plasmo.com/)
 
-<div>Icons made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.com/" 			    title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" 			    title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
+## Making production build
+
+Run the following:
+
+```bash
+pnpm build
+# or
+npm run build
+```
+
+This should create a production bundle for your extension, ready to be zipped and published to the stores.
+
+## Submit to the webstores
+
+The easiest way to deploy your Plasmo extension is to use the built-in [bpp](https://bpp.browser.market) GitHub action. Prior to using this action however, make sure to build your extension and upload the first version to the store to establish the basic credentials. Then, simply follow [this setup instruction](https://docs.plasmo.com/framework/workflows/submit) and you should be on your way for automated submission!
