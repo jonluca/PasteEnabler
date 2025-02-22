@@ -1,10 +1,18 @@
 import "./styles.css"
 
+import { useEffect } from "react"
+
+import { sendToContentScript } from "@plasmohq/messaging"
 import { useStorage } from "@plasmohq/storage/hook"
 
 function IndexPopup() {
   const [isDisabled, setIsDisabled] = useStorage("disabled", false)
 
+  useEffect(() => {
+    sendToContentScript({
+      name: "run"
+    })
+  }, [])
   const toggleSwitch = () => {
     setIsDisabled(!isDisabled)
   }

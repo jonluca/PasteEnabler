@@ -2433,6 +2433,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@plasmohq/messaging@npm:^0.7.1":
+  version: 0.7.1
+  resolution: "@plasmohq/messaging@npm:0.7.1"
+  dependencies:
+    nanoid: "npm:5.0.3"
+  peerDependencies:
+    react: ^16.8.6 || ^17 || ^18 || ^19.0.0
+  peerDependenciesMeta:
+    react:
+      optional: true
+  checksum: 10c0/3962f90685f0d2c45945fc1c1627e2aecd8f1e7a33e152e295abeb45ff47118f2a3174bdd30fffb351eb3bac1d448b614bc7e7a4a7e60ce779842f8429962f4a
+  languageName: node
+  linkType: hard
+
 "@plasmohq/parcel-bundler@npm:0.5.6":
   version: 0.5.6
   resolution: "@plasmohq/parcel-bundler@npm:0.5.6"
@@ -5857,6 +5871,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"nanoid@npm:5.0.3":
+  version: 5.0.3
+  resolution: "nanoid@npm:5.0.3"
+  bin:
+    nanoid: bin/nanoid.js
+  checksum: 10c0/903c5ff1fbc1fb5c2799d5febfed38d1b8dc7b42e4b76131daba9011cb5eca2e455a3f70ccd7da60aee4fe3e8269d1ba4e8960f57c01fb3b8975c896f70c3e2d
+  languageName: node
+  linkType: hard
+
 "nanoid@npm:^3.3.8":
   version: 3.3.8
   resolution: "nanoid@npm:3.3.8"
@@ -6139,6 +6162,7 @@ __metadata:
   resolution: "paste-enabler@workspace:."
   dependencies:
     "@ianvs/prettier-plugin-sort-imports": "npm:4.4.1"
+    "@plasmohq/messaging": "npm:^0.7.1"
     "@plasmohq/storage": "npm:^1.15.0"
     "@types/chrome": "npm:0.0.306"
     "@types/node": "npm:22.13.5"

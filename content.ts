@@ -1,3 +1,6 @@
+import type { PlasmoCSConfig } from "plasmo"
+
+import { listen } from "@plasmohq/messaging/message"
 import { Storage } from "@plasmohq/storage"
 
 type CSSPropertyValue = string | null
@@ -150,23 +153,6 @@ class InteractionEnabler {
     this.enableTextSelection()
     this.enableClipboardAPI()
     this.enableInputFeatures()
-
-    // Add mutation observer to handle dynamically added elements
-    const observer = new MutationObserver((mutations) => {
-      mutations.forEach((mutation) => {
-        mutation.addedNodes.forEach((node) => {
-          if (node instanceof HTMLElement) {
-            const styleManager = new DOMElementStyleManager(node)
-            styleManager.addStyle("user-select", "text", { important: true })
-          }
-        })
-      })
-    })
-
-    observer.observe(document.body, {
-      childList: true,
-      subtree: true
-    })
   }
 }
 
@@ -176,3 +162,11 @@ enabler.enable()
 
 // Export for use in modules
 export { InteractionEnabler }
+export const config: PlasmoCSConfig = {
+  run_at: "document_start"
+}
+
+listen(async () => {
+  console.log("Running enabler")
+  enabler.enable()
+})

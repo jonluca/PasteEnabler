@@ -11,6 +11,7 @@
     "package": "plasmo package"
   },
   "dependencies": {
+    "@plasmohq/messaging": "^0.7.1",
     "@plasmohq/storage": "^1.15.0",
     "autoprefixer": "^10.4.20",
     "plasmo": "0.90.3",
