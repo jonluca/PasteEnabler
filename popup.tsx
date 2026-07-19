@@ -13,8 +13,11 @@ function IndexPopup() {
       name: "run"
     })
   }, [])
-  const toggleSwitch = () => {
-    setIsDisabled(!isDisabled)
+  const toggleSwitch = async () => {
+    await setIsDisabled(!isDisabled)
+    await sendToContentScript({
+      name: "run"
+    })
   }
 
   return (
