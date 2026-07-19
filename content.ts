@@ -60,6 +60,9 @@ class DOMElementStyleManager implements ElementStyleManager {
 }
 
 class InteractionEnabler {
+  private enabled = false
+  private shouldEnable = false
+  private cleanup: Array<() => void> = []
   private eventsToEnable: EventType[] = [
     "paste",
     "copy",
@@ -79,52 +82,89 @@ class InteractionEnabler {
   ]
 
   private enableEvent(type: EventType): void {
-    window.addEventListener(
-      type,
-      (event: Event) => {
-        event.stopPropagation()
-      },
-      { capture: true }
+    const handler = (event: Event) => {
+      event.stopPropagation()
+    }
+    window.addEventListener(type, handler, { capture: true })
+    this.cleanup.push(() =>
+      window.removeEventListener(type, handler, { capture: true })
     )
+  }
+
+  private changeAttribute(
+    element: HTMLElement,
+    name: string,
+    value: string | null
+  ): void {
+    const original = element.getAttribute(name)
+    if (value === null) {
+      element.removeAttribute(name)
+    } else {
+      element.setAttribute(name, value)
+    }
+    this.cleanup.push(() => {
+      if (original === null) {
+        element.removeAttribute(name)
+      } else {
+        element.setAttribute(name, original)
+      }
+    })
+  }
+
+  private changeStyle(
+    element: HTMLElement,
+    property: string,
+    value: string
+  ): void {
+    const originalValue = element.style.getPropertyValue(property)
+    const originalPriority = element.style.getPropertyPriority(property)
+    const styleManager = new DOMElementStyleManager(element)
+    styleManager.addStyle(property, value, { important: true })
+    this.cleanup.push(() => {
+      if (originalValue) {
+        element.style.setProperty(property, originalValue, originalPriority)
+      } else {
+        element.style.removeProperty(property)
+      }
+    })
   }
 
   private enableAutocomplete(): void {
     document.querySelectorAll<HTMLElement>("[autocomplete]").forEach((elem) => {
-      elem.setAttribute("autocomplete", "on")
+      this.changeAttribute(elem, "autocomplete", "on")
     })
   }
 
   private enableDragging(): void {
     document.querySelectorAll<HTMLElement>("[draggable]").forEach((elem) => {
-      elem.setAttribute("draggable", "auto")
+      this.changeAttribute(elem, "draggable", "auto")
     })
   }
 
   private enableTextSelection(): void {
-    const elements = document.body.getElementsByTagName("*")
-    Array.from(elements).forEach((elem) => {
-      if (elem instanceof HTMLElement) {
-        const styleManager = new DOMElementStyleManager(elem)
-        styleManager.addStyle("user-select", "text", { important: true })
-
-        // Also enable text selection for modern browsers
-        styleManager.addStyle("-webkit-user-select", "text", {
-          important: true
-        })
-        styleManager.addStyle("-moz-user-select", "text", { important: true })
-        styleManager.addStyle("-ms-user-select", "text", { important: true })
-      }
+    const elements = [
+      document.body,
+      ...Array.from(document.body.querySelectorAll("*"))
+    ]
+    elements.forEach((elem) => {
+      if (!(elem instanceof HTMLElement)) return
+      this.changeStyle(elem, "user-select", "text")
+      this.changeStyle(elem, "-webkit-user-select", "text")
+      this.changeStyle(elem, "-moz-user-select", "text")
+      this.changeStyle(elem, "-ms-user-select", "text")
     })
   }
 
   private enableClipboardAPI(): void {
     // Enable clipboard API for modern browsers
-    document.addEventListener("copy", (e: ClipboardEvent) => {
+    const handler = (e: ClipboardEvent) => {
       const selection = window.getSelection()
       if (selection && !selection.isCollapsed) {
         e.clipboardData?.setData("text/plain", selection.toString())
       }
-    })
+    }
+    document.addEventListener("copy", handler)
+    this.cleanup.push(() => document.removeEventListener("copy", handler))
   }
 
   private enableInputFeatures(): void {
@@ -132,17 +172,23 @@ class InteractionEnabler {
     document
       .querySelectorAll<HTMLInputElement>("input, textarea")
       .forEach((input) => {
-        input.setAttribute("spellcheck", "true")
-        input.removeAttribute("readonly")
-        input.removeAttribute("disabled")
+        this.changeAttribute(input, "spellcheck", "true")
+        this.changeAttribute(input, "readonly", null)
+        this.changeAttribute(input, "disabled", null)
       })
   }
 
   async enable(): Promise<void> {
-    const disabled = await storage.get<boolean>("disabled")
-    if (disabled) {
-      return
+    this.shouldEnable = true
+    if (!document.body) {
+      await new Promise<void>((resolve) => {
+        document.addEventListener("DOMContentLoaded", () => resolve(), {
+          once: true
+        })
+      })
     }
+    if (!this.shouldEnable || this.enabled) return
+    this.enabled = true
 
     // Enable all events
     this.eventsToEnable.forEach((eventType) => this.enableEvent(eventType))
@@ -154,11 +200,30 @@ class InteractionEnabler {
     this.enableClipboardAPI()
     this.enableInputFeatures()
   }
+
+  disable(): void {
+    this.shouldEnable = false
+    if (!this.enabled) return
+    this.enabled = false
+    this.cleanup
+      .splice(0)
+      .reverse()
+      .forEach((restore) => restore())
+  }
+
+  async syncFromStorage(): Promise<void> {
+    const disabled = await storage.get<boolean>("disabled")
+    if (disabled) {
+      this.disable()
+    } else {
+      await this.enable()
+    }
+  }
 }
 
 // Usage
 const enabler = new InteractionEnabler()
-enabler.enable()
+void enabler.syncFromStorage()
 
 // Export for use in modules
 export { InteractionEnabler }
@@ -167,6 +232,5 @@ export const config: PlasmoCSConfig = {
 }
 
 listen(async () => {
-  console.log("Running enabler")
-  enabler.enable()
+  await enabler.syncFromStorage()
 })
