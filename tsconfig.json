@@ -2,5 +2,11 @@
   "extends": "./.wxt/tsconfig.json",
   "compilerOptions": {
     "strict": true
-  }
+  },
+  "include": [
+    ".wxt/wxt.d.ts",
+    "entrypoints/**/*.ts",
+    "entrypoints/**/*.tsx",
+    "wxt.config.ts"
+  ]
 }
