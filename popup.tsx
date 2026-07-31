@@ -9,9 +9,7 @@ function IndexPopup() {
   const [isDisabled, setIsDisabled] = useStorage("disabled", false)
 
   useEffect(() => {
-    sendToContentScript({
-      name: "run"
-    })
+    void sendToContentScript({ name: "run" }).catch(() => undefined)
   }, [])
   const toggleSwitch = async () => {
     await setIsDisabled(!isDisabled)
