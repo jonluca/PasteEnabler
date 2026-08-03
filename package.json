@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "wxt -b chrome --mv3",
     "dev:firefox": "wxt -b firefox --mv3",
+    "format": "oxfmt",
+    "format:check": "oxfmt --check",
     "typecheck": "wxt prepare && tsc --noEmit",
     "build": "npm run build:chrome && npm run build:edge && npm run build:firefox && npm run build:safari",
     "build:chrome": "wxt build -b chrome --mv3",
@@ -17,8 +19,9 @@
     "lint:firefox": "web-ext lint --source-dir .output/firefox-mv3"
   },
   "devDependencies": {
-    "@types/chrome": "0.2.4",
-    "typescript": "6.0.3",
+    "@types/chrome": "0.2.5",
+    "oxfmt": "0.61.0",
+    "typescript": "7.0.2",
     "web-ext": "10.5.0",
     "wxt": "0.21.3"
   },

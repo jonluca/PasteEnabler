@@ -1,11 +1,12 @@
-import { defineConfig } from "wxt";
+import { defineConfig } from "wxt"
 
 export default defineConfig({
   manifestVersion: 3,
   targetBrowsers: ["chrome", "edge", "firefox", "safari"],
   manifest: ({ browser }) => ({
     name: "Paste enabler",
-    description: "Re-enable paste, copy, selection, context menus, and common input features on restrictive sites.",
+    description:
+      "Re-enable paste, copy, selection, context menus, and common input features on restrictive sites.",
     version: "1.1.0",
     homepage_url: "https://github.com/jonluca/PasteEnabler",
     permissions: ["storage"],
@@ -39,4 +40,4 @@ export default defineConfig({
         }
       : {})
   })
-});
+})
